@@ -71,9 +71,6 @@ enum {
     GET_EFFECT_DESCRIPTOR,
     CREATE_EFFECT,
     MOVE_EFFECTS,
-#ifdef QCOM_MR1_FM
-    SET_FM_VOLUME,
-#endif
     LOAD_HW_MODULE,
     GET_PRIMARY_OUTPUT_SAMPLING_RATE,
     GET_PRIMARY_OUTPUT_FRAME_COUNT,
@@ -754,17 +751,6 @@ public:
         return reply.readInt32();
     }
 
-#ifdef QCOM_MR1_FM
-    virtual status_t setFmVolume(float volume)
-    {
-        Parcel data, reply;
-        data.writeInterfaceToken(IAudioFlinger::getInterfaceDescriptor());
-        data.writeFloat(volume);
-        remote()->transact(SET_FM_VOLUME, data, &reply);
-        return reply.readInt32();
-    }
-#endif
-	
     virtual audio_module_handle_t loadHwModule(const char *name)
     {
         Parcel data, reply;
@@ -1188,15 +1174,7 @@ status_t BnAudioFlinger::onTransact(
             reply->writeInt32(moveEffects(session, srcOutput, dstOutput));
             return NO_ERROR;
         } break;
-#ifdef QCOM_MR1_FM
-        case SET_FM_VOLUME: {
-            CHECK_INTERFACE(IAudioFlinger, data, reply);
-            float volume = data.readFloat();
-            reply->writeInt32( setFmVolume(volume) );
-            return NO_ERROR;
-        } break;
-#endif
-		case LOAD_HW_MODULE: {
+        case LOAD_HW_MODULE: {
             CHECK_INTERFACE(IAudioFlinger, data, reply);
             reply->writeInt32(loadHwModule(data.readCString()));
             return NO_ERROR;

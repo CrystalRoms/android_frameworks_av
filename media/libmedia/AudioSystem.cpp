@@ -423,15 +423,6 @@ void AudioSystem::releaseAudioSessionId(int audioSession) {
     }
 }
 
-#ifdef QCOM_MR1_FM
-status_t AudioSystem::setFmVolume(float value)
-	{
-    const sp<IAudioFlinger>& af = AudioSystem::get_audio_flinger();
-    if (af == 0) return PERMISSION_DENIED;
-    return af->setFmVolume(value);
-	}
-#endif
-
 // ---------------------------------------------------------------------------
 
 void AudioSystem::AudioFlingerClient::binderDied(const wp<IBinder>& who) {
