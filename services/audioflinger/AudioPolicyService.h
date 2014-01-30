@@ -171,7 +171,7 @@ private:
             SET_PARAMETERS,
             SET_VOICE_VOLUME,
             STOP_OUTPUT,
-            RELEASE_OUTPUT,
+            RELEASE_OUTPUT
 #ifdef QCOM_MR1_FM
             SET_FM_VOLUME
 #endif
